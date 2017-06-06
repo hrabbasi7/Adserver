@@ -39,6 +39,7 @@ If an error is encountered, the ad server must return an appropriate response an
 
 Storing campaign data in memory or a cookie is totally fine.
 
+POST URL : http://localhost:8080/ad
  
 
 == Fetch Ad Campaign for a Partner
@@ -47,6 +48,7 @@ A partner should be able to get their ad data by sending a GET request to the ad
 
 If the current time is greater than a campaign's creation time + duration, then the server's response should be an error indicating that no active ad campaigns exist for the specified partner.
 
+GET URL: http://localhost:8080/ad/11
  
 Bonus
 -----
@@ -55,8 +57,37 @@ The following are not required but might be nice additions to the exercise.
 
 * Describe a fault tolerant deployment topology for your application, and the types of failures it would and would not be resilient to.
 
+Build an executable JAR
+
+You can run the application from the command line with Gradle or Maven. Or you can build a single executable JAR file that contains all the necessary dependencies, classes, and resources, and run that. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
+
+If you are using Gradle, you can run the application using ./gradlew bootRun. Or you can build the JAR file using ./gradlew build. Then you can run the JAR file:
+
+java -jar build/libs/adServer-0.1.0.jar
+
+If you are using Maven, you can run the application using ./mvnw spring-boot:run. Or you can build the JAR file with ./mvnw clean package. Then you can run the JAR file:
+
+java -jar target/adServer-0.1.0.jar
+
 * Discuss the advantages and disadvantages of your persistence mechanism.
+
+I used h2 embeded DB for campgain storage it started when the server start.  
+Advantage is it will start with as Spring Boot server started spring container take care of the rest. 
+No need to create, drop or alter schema like terditional RDBMS. light weight and work as cache.
+Disadvantage data flush on every restart. work as cache not sauitable for persistance of data for long term. 
 
 * Add a URL to return a list of all campaigns as JSON.
 
+localhost:8080/campaign
+
 * Add support for multiple ad campaigns per partner.
+
+added the schema for one to many relation in the domain model. we can extend that to add the partner and then their multiple campaigns as 
+in Campaign domain model partner id is used as forigen Key. 
+
+E2E Test cases :
+
+initail level of E2E test cases were implemented which will be verified with ./gradlew build 
+
+CURL : curl -i -X POST -d "{  \"partner_id\" : \"10\",  \"duration\" : \"20\",  \"ad_content\" : \"babajee\"  }" http://localhost:8080/ad
+
