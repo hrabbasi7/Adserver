@@ -63,11 +63,11 @@ You can run the application from the command line with Gradle or Maven. Or you c
 
 If you are using Gradle, you can run the application using ./gradlew bootRun. Or you can build the JAR file using ./gradlew build. Then you can run the JAR file:
 
-java -jar build/libs/adServer-0.1.0.jar
+code java -jar build/libs/adServer-0.1.0.jar
 
 If you are using Maven, you can run the application using ./mvnw spring-boot:run. Or you can build the JAR file with ./mvnw clean package. Then you can run the JAR file:
 
-java -jar target/adServer-0.1.0.jar
+code java -jar target/adServer-0.1.0.jar
 
 * Discuss the advantages and disadvantages of your persistence mechanism.
 
@@ -78,7 +78,7 @@ Disadvantage data flush on every restart. work as cache not sauitable for persis
 
 * Add a URL to return a list of all campaigns as JSON.
 
-localhost:8080/campaign
+URL: localhost:8080/campaign
 
 * Add support for multiple ad campaigns per partner.
 
@@ -91,3 +91,9 @@ initail level of E2E test cases were implemented which will be verified with ./g
 
 CURL : curl -i -X POST -d "{  \"partner_id\" : \"10\",  \"duration\" : \"20\",  \"ad_content\" : \"babajee\"  }" http://localhost:8080/ad
 
+Technical Approch
+-----------------
+
+I used Level 3 REST for implemenation of /Ad based POST and Get /ad/<partner_id>.
+I used Level 4 HATEOAS REST implementation for Partner and Campaign Schema which allow use number of useful oprations to Insert, Search and update. 
+I used H2 embeded DB which work as cache for the implemenation.  
